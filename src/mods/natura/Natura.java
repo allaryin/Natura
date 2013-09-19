@@ -2,6 +2,7 @@ package mods.natura;
 
 import java.util.Random;
 
+import mods.natura.blocks.TaintedSoil;
 import mods.natura.common.NContent;
 import mods.natura.common.NProxyCommon;
 import mods.natura.common.NaturaTab;
@@ -28,8 +29,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -180,6 +181,15 @@ public class Natura
         	((EntityLiving)event.entity).tasks.addTask(3, new EntityAITempt((EntityCreature) event.entity, 0.25F, NContent.seeds.itemID, false));
         }
     }
+
+	@ForgeSubscribe
+	public void onHoe(UseHoeEvent event) {
+		int blockID = event.world.getBlockId(event.x, event.z, event.y);
+		if (blockID == NContent.taintedSoil.blockID) {
+			event.world.setBlockMetadataWithNotify(event.x, event.z, event.y,
+					TaintedSoil.FARMLAND_DRY, 0x2);
+		}
+	}
 
     NContent content;
     public static Random random = new Random();
