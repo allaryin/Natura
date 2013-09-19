@@ -36,7 +36,8 @@ public class CropBlock extends BlockCrops
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick (World world, int x, int y, int z, Random random)
+    @Override
+	public void updateTick (World world, int x, int y, int z, Random random)
     {
         this.checkFlowerChange(world, x, y, z);
 
@@ -128,7 +129,8 @@ public class CropBlock extends BlockCrops
         return true;
     }
 
-    protected boolean canThisPlantGrowOnThisBlockID (int par1)
+    @Override
+	protected boolean canThisPlantGrowOnThisBlockID (int par1)
     {
         return par1 == Block.tilledField.blockID;
     }
@@ -172,7 +174,8 @@ public class CropBlock extends BlockCrops
         return false;
     }
 
-    public float getBlockHardness (World world, int x, int y, int z)
+    @Override
+	public float getBlockHardness (World world, int x, int y, int z)
     {
         if (world.getBlockMetadata(x, y, z) > 3)
             return 0.5f;
@@ -204,12 +207,14 @@ public class CropBlock extends BlockCrops
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType ()
+    @Override
+	public int getRenderType ()
     {
         return CropRender.model;
     }
 
-    public int idDropped (int meta, Random random, int fortune)
+    @Override
+	public int idDropped (int meta, Random random, int fortune)
     {
         if (meta == 3 || meta == 8)
             return this.getCropItem(meta);
@@ -226,7 +231,8 @@ public class CropBlock extends BlockCrops
         return NContent.seeds.itemID;
     }
 
-    public int damageDropped (int meta)
+    @Override
+	public int damageDropped (int meta)
     {
         if (meta < 4)
             return 0;
@@ -243,7 +249,8 @@ public class CropBlock extends BlockCrops
     /**
      * Drops the block items with a specified chance of dropping the specified items
      */
-    public void dropBlockAsItemWithChance (World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
+    @Override
+	public void dropBlockAsItemWithChance (World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
     {
         super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, 0);
     }
@@ -297,7 +304,8 @@ public class CropBlock extends BlockCrops
      * Returns the ID of the items to drop on destruction.
      */
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     /**
      * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
      */
@@ -306,7 +314,8 @@ public class CropBlock extends BlockCrops
         return this.getSeedItem(world.getBlockMetadata(x, y, z));
     }
 
-    public int getDamageValue (World par1World, int par2, int par3, int par4)
+    @Override
+	public int getDamageValue (World par1World, int par2, int par3, int par4)
     {
         return seedDamageDropped(par1World.getBlockMetadata(par2, par3, par4));
     }
